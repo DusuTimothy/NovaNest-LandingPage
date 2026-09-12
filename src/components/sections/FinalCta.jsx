@@ -40,7 +40,7 @@ export default function FinalCta() {
               mx-auto  mb-10 w-[min(100%,420px)] h-75 sm:h-85
               lg:absolute lg:mx-0 lg:mt-0 lg:mb-0
               lg:left-[42%] lg:right-[-200] lg:w-auto
-              lg:top-[-40%] lg:bottom-[-18%] lg:h-auto
+              lg:top-[-10%] lg:bottom-[-18%] lg:h-auto
             "
           >
             <Image
