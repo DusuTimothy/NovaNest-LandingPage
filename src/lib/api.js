@@ -63,8 +63,8 @@ const TESTIMONIAL_PROFILES = [
  * Helper to resolve environment credentials from process.env
  */
 function getApiCredentials() {
-  let apiKey = process.env.REAL_ESTATE_API_KEY || "";
-  let baseUrl = process.env.REAL_ESTATE_API_BASE_URL || "";
+  let apiKey = process.env.NOVANEST_API_KEY || "";
+  let baseUrl = process.env.NOVANEST_API_BASE_URL || "";
 
   // Strip possible accidental wrapping quotes
   apiKey = apiKey.trim().replace(/^["']|["']$/g, "");
