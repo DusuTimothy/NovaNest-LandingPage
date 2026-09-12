@@ -156,6 +156,8 @@ To keep provider credentials secure:
 2. The internal Route Handler at `src/app/api/properties/route.js` securely proxies calls to the external provider with 5-minute caching (`next: { revalidate: 300 }`) and provides fallback data when no external provider is set.
 3. Client components consume data via `src/lib/api.js`, preventing any sensitive keys from reaching the browser bundle.
 
+Photo mapping (Zillow-style `originalPhotos.mixedSources` and Realtor `photos`/`primary_photo`) is documented in [`docs/API-IMAGE-FETCHING.md`](./docs/API-IMAGE-FETCHING.md).
+
 ---
 
 ## 🚀 Getting Started

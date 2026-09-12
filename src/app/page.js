@@ -25,7 +25,7 @@ export default async function Home() {
         <ExclusiveOffers offers={data?.exclusiveOffers} />
         <PopularAds properties={data?.popularAds} />
         <MobileApp />
-        <Testimonials />
+        <Testimonials testimonials={data?.testimonials} />
         <FinalCta />
       </main>
 

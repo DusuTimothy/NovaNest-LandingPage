@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import StatIcon from "./StatIcon";
 import Button from "./Button";
@@ -9,15 +9,31 @@ import Button from "./Button";
  * Modal to display complete fetched property data from the API
  */
 export default function PropertyModal({ property, onClose }) {
+  const gallery =
+    property?.images?.length > 0
+      ? property.images
+      : [property?.image || "/images/popular-urban-oasis.jpg"];
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    setActiveIndex(0);
+  }, [property?.id, property?.image]);
+
   useEffect(() => {
     if (!property) return;
 
     const handleKeyDown = (e) => {
       if (e.key === "Escape") onClose();
+      if (gallery.length < 2) return;
+      if (e.key === "ArrowRight") {
+        setActiveIndex((i) => (i + 1) % gallery.length);
+      }
+      if (e.key === "ArrowLeft") {
+        setActiveIndex((i) => (i - 1 + gallery.length) % gallery.length);
+      }
     };
     window.addEventListener("keydown", handleKeyDown);
 
-    // Prevent background scrolling ONLY while modal is actually open with a property
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
@@ -25,9 +41,19 @@ export default function PropertyModal({ property, onClose }) {
       window.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = originalOverflow || "unset";
     };
-  }, [property, onClose]);
+  }, [property, onClose, gallery.length]);
 
   if (!property) return null;
+
+  const activeImage = gallery[activeIndex] || gallery[0];
+  const caption =
+    property.captions?.[activeIndex] ||
+    property.captions?.[0] ||
+    "";
+
+  const showPrev = () =>
+    setActiveIndex((i) => (i - 1 + gallery.length) % gallery.length);
+  const showNext = () => setActiveIndex((i) => (i + 1) % gallery.length);
 
   return (
     <div
@@ -38,10 +64,9 @@ export default function PropertyModal({ property, onClose }) {
       aria-labelledby="modal-property-title"
     >
       <div
-        className="relative w-full max-w-2xl bg-brand-cream-50 rounded-[32px] overflow-hidden shadow-2xl border border-white/80 text-on-light flex flex-col max-h-[90vh] overflow-y-auto"
+        className="relative w-full max-w-2xl bg-brand-cream-50 rounded-4xl overflow-hidden shadow-2xl border border-white/80 text-on-light flex flex-col max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close Button */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-brand-forest-900/80 hover:bg-brand-forest-900 text-brand-cream-50 flex items-center justify-center transition-transform hover:scale-105 shadow-md focus:outline-none cursor-pointer"
@@ -52,16 +77,44 @@ export default function PropertyModal({ property, onClose }) {
           </svg>
         </button>
 
-        {/* Hero Image */}
-        <div className="relative w-full h-[260px] sm:h-[320px] bg-brand-forest-900/10 shrink-0">
+        {/* Hero / gallery */}
+        <div className="relative w-full h-65 sm:h-80 bg-brand-forest-900/10 shrink-0">
           <Image
-            src={property.image || "/images/popular-urban-oasis.jpg"}
-            alt={property.title || "NovaNest Luxury Residence"}
+            src={activeImage}
+            alt={
+              caption ||
+              `${property.title || "NovaNest Luxury Residence"} photo ${activeIndex + 1}`
+            }
             fill
             sizes="(max-width: 768px) 100vw, 672px"
             className="object-cover"
             priority
           />
+
+          {gallery.length > 1 && (
+            <>
+              <button
+                type="button"
+                onClick={showPrev}
+                className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-brand-forest-900/75 text-brand-cream-50 flex items-center justify-center hover:bg-brand-forest-900 cursor-pointer"
+                aria-label="Previous photo"
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                onClick={showNext}
+                className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-brand-forest-900/75 text-brand-cream-50 flex items-center justify-center hover:bg-brand-forest-900 cursor-pointer"
+                aria-label="Next photo"
+              >
+                ›
+              </button>
+              <div className="absolute bottom-3 right-3 z-10 text-[11px] font-medium px-2.5 py-1 rounded-full bg-brand-forest-900/80 text-brand-cream-50">
+                {activeIndex + 1} / {gallery.length}
+              </div>
+            </>
+          )}
+
           {property.isLive && (
             <div className="absolute top-4 left-4 bg-brand-forest-900/90 backdrop-blur-md text-brand-cream-50 text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-2 shadow-lg border border-brand-forest-600/50">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -75,9 +128,34 @@ export default function PropertyModal({ property, onClose }) {
           )}
         </div>
 
-        {/* Content Body */}
+        {gallery.length > 1 && (
+          <div className="flex gap-2 px-4 py-3 overflow-x-auto bg-brand-cream-50 border-b border-on-light/10">
+            {gallery.map((src, idx) => (
+              <button
+                key={`${src}-${idx}`}
+                type="button"
+                onClick={() => setActiveIndex(idx)}
+                aria-label={`View photo ${idx + 1}`}
+                aria-current={idx === activeIndex}
+                className={`relative shrink-0 w-16 h-12 rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${
+                  idx === activeIndex
+                    ? "border-brand-sage-500 ring-1 ring-brand-sage-500/40"
+                    : "border-transparent opacity-70 hover:opacity-100"
+                }`}
+              >
+                <Image
+                  src={src}
+                  alt=""
+                  fill
+                  sizes="64px"
+                  className="object-cover"
+                />
+              </button>
+            ))}
+          </div>
+        )}
+
         <div className="p-6 sm:p-8 space-y-6">
-          {/* Title & Pricing */}
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-on-light/10 pb-6">
             <div>
               <div className="flex items-center gap-2 text-xs font-semibold tracking-wider text-brand-sage-500 uppercase mb-1">
@@ -108,7 +186,6 @@ export default function PropertyModal({ property, onClose }) {
             </div>
           </div>
 
-          {/* Key Specifications */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-on-light-muted mb-3">
               Property Specifications
@@ -129,7 +206,6 @@ export default function PropertyModal({ property, onClose }) {
             </div>
           </div>
 
-          {/* Features Highlights */}
           <div className="bg-brand-forest-900/5 rounded-2xl p-4 border border-on-light/5 space-y-2 text-sm text-on-light/90">
             <h4 className="text-xs font-bold uppercase tracking-wider text-on-light-muted mb-2">
               Listing Highlights
@@ -150,7 +226,6 @@ export default function PropertyModal({ property, onClose }) {
             </ul>
           </div>
 
-          {/* Action CTAs */}
           <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
             <Button
               href="#newsletter"

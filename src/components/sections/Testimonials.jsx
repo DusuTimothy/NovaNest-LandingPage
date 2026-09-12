@@ -5,10 +5,10 @@ import Image from "next/image";
 import StatIcon from "../ui/StatIcon";
 import Button from "../ui/Button";
 
-export default function Testimonials() {
+export default function Testimonials({ testimonials: initialTestimonials }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const testimonials = [
+  const defaultTestimonials = [
     {
       id: 1,
       propertyTitle: "Serene Haven",
@@ -50,8 +50,14 @@ export default function Testimonials() {
     },
   ];
 
-  const current = testimonials[currentIndex];
-  const nextItem = testimonials[(currentIndex + 1) % testimonials.length];
+  const testimonials =
+    initialTestimonials && initialTestimonials.length > 0
+      ? initialTestimonials
+      : defaultTestimonials;
+
+  const safeIndex = currentIndex % testimonials.length;
+  const current = testimonials[safeIndex];
+  const nextItem = testimonials[(safeIndex + 1) % testimonials.length];
 
   const handlePrev = () => {
     setCurrentIndex((prev) =>
@@ -142,7 +148,7 @@ export default function Testimonials() {
           {/* Active Card */}
           <div className="w-full lg:w-[82%] bg-brand-cream-50 rounded-[28px] overflow-hidden shadow-2xl grid grid-cols-1 md:grid-cols-12 shrink-0 border border-white/80 transition-all duration-500">
             {/* Left Photo */}
-            <div className="relative md:col-span-6 h-[260px] md:h-auto min-h-[320px] bg-brand-forest-900/5">
+            <div className="relative md:col-span-6 h-65 md:h-auto min-h-80 bg-brand-forest-900/5">
               <Image
                 src={current.propertyImage}
                 alt={current.propertyTitle}

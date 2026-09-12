@@ -1,4 +1,22 @@
 /**
+ * @typedef {Object} PropertyPhotoVariant
+ * @property {string} url - Absolute CDN URL for this resolution
+ * @property {number} [width] - Pixel width of the variant
+ */
+
+/**
+ * @typedef {Object} PropertyMixedSources
+ * @property {PropertyPhotoVariant[]} [jpeg]
+ * @property {PropertyPhotoVariant[]} [webp]
+ */
+
+/**
+ * @typedef {Object} OriginalPhoto
+ * @property {string} [caption]
+ * @property {PropertyMixedSources} mixedSources
+ */
+
+/**
  * @typedef {Object} Property
  * @property {string} id - Unique identifier for the property
  * @property {string} title - Property title / headline
@@ -8,8 +26,15 @@
  * @property {string} area - Floor area in square meters (e.g. "120m²")
  * @property {number} bedrooms - Number of bedrooms
  * @property {number} bathrooms - Number of bathrooms
- * @property {string} image - Path or URL to the property thumbnail/photo
+ * @property {string} image - Primary thumbnail/hero photo URL
+ * @property {string[]} [images] - Full ordered gallery mapped from API photos
+ * @property {string[]} [captions] - Optional captions aligned with images[]
+ * @property {string} [bgImage1] - Secondary stacked image (Exclusive Offers)
+ * @property {string} [bgImage2] - Tertiary stacked image (Exclusive Offers)
+ * @property {boolean} [isLive] - Whether this row came from the live API
  * @property {boolean} [isExclusive] - Whether this property is part of exclusive offers
+ * @property {string} [propertyType] - Provider property type (e.g. single_family, condo)
+ * @property {string} [tag] - Optional marketing tag for cards
  */
 
 /**
