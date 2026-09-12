@@ -59,7 +59,7 @@ const TESTIMONIAL_PROFILES = [
   },
 ];
 
-/**
+/** 
  * Helper to resolve environment credentials from process.env
  */
 function getApiCredentials() {
