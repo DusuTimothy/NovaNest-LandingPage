@@ -64,7 +64,7 @@ export default function ExclusiveOffers({ offers }) {
                   alt="Property preview background"
                   fill
                   className="object-cover opacity-50"
-                />
+                /> 
               </div>
 
               {/* Back Layer 1 */}
