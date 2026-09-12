@@ -1,26 +1,96 @@
 @import "tailwindcss";
 
+@theme {
+  --color-brand-forest-900: #162928;
+  --color-brand-forest-800: #1F3833;
+  --color-brand-forest-700: #26433E;
+  --color-brand-forest-600: #345850;
+
+  --color-brand-sage-500: #5E8479;
+  --color-brand-sage-400: #749D90;
+  --color-brand-sage-300: #9DC9BB;
+
+  --color-brand-cream-50: #F4FFFB;
+
+  --color-brand-gold-400: #FFCB4A;
+  --color-brand-gold-300: #FFD15D;
+
+  /* Decorative orbit rings — traced from Container.png / hero-graphic (#2E5448) */
+  --color-brand-orbit: #2E5448;
+
+  --color-on-light: #24423D;
+  --color-on-light-muted: #4B6F67;
+
+  --color-ink-900: #1C1C1C;
+
+  --font-sans: var(--font-primary), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --radius-xl2: 1.25rem;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --brand-forest-900: #162928;
+  --brand-forest-800: #1F3833;
+  --brand-forest-700: #26433E;
+  --brand-forest-600: #345850;
+  --brand-sage-500: #5E8479;
+  --brand-sage-400: #749D90;
+  --brand-sage-300: #9DC9BB;
+  --brand-cream-50: #F4FFFB;
+  --brand-gold-400: #FFCB4A;
+  --brand-gold-300: #FFD15D;
+  --brand-orbit: #2E5448;
+  --text-on-light: #24423D;
+  --text-on-light-muted: #4B6F67;
+  --ink-900: #1C1C1C;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #1F3833;
+  color: #F4FFFB;
+  font-family: var(--font-primary), system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #162928;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #345850;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5E8479;
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.bg-brand-gradient {
+  background: linear-gradient(135deg, #26433E 0%, #1F3833 55%, #162928 100%);
+}
+
+.bg-newsletter-gradient {
+  background: linear-gradient(160deg, #FFBE17 0%, #6A9285 100%);
+}
+
+.bg-button-fill {
+  background: linear-gradient(180deg, #9ECABC 0%, #638B7E 100%);
 }
