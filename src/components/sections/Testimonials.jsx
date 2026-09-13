@@ -207,6 +207,7 @@ export default function Testimonials({ testimonials: initialTestimonials }) {
                       alt={current.clientName}
                       fill
                       className="object-cover"
+                      sizes="44px"
                     />
                   </div>
                   <span className="font-medium text-base text-on-light">

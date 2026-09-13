@@ -50,6 +50,7 @@ export default function FinalCta() {
               sizes="(max-width: 1024px) 90vw, 65vw"
               width={800}
               height={420}
+              priority
             />
           </div>
         </div>
