@@ -596,7 +596,7 @@ export const fallbackPropertiesData = {
 export async function getPropertiesData() {
   const { apiKey, baseUrl } = getApiCredentials();
 
-  if (!apiKey || !baseUrl) {
+  if (!apiKey || !baseUrl) { 
     return fallbackPropertiesData;
   }
 
